@@ -1,0 +1,275 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    /* background-color: #0e1c36; */
+    font-family: semplicitapro, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    min-height: 100%;
+  }
+
+  header {
+    background-color: #040B29;
+    color: #fff;
+    /* height: 5%; */
+    display: flex;
+    gap: 30px 0;
+    padding: 20px 50px;
+  }
+  
+  body, html {
+    height: 100%;
+  }
+
+  p {
+    font-size: 1.2em;
+    letter-spacing: 0.1em;
+    margin: 20px 0;
+    line-height: 160%;
+  }
+
+  h1 {
+    font-family: semplicitapro, sans-serif;
+    font-weight: 500;
+    font-size: 1.7em;
+    font-style: normal;
+    text-decoration: underline;
+    color: #040B29;
+    margin-left: 10%;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 2em;
+    color: #fb8500;
+  }
+
+  h4 {
+    font-weight: 600;
+    font-size: 1.5em;
+    font-style: normal;
+    letter-spacing: 1.8;
+  }
+
+  /* h5 {
+    font-size: 1.2em;
+    letter-spacing: 0.15em;
+    line-height: 160%;
+
+  } */
+
+  span {
+    font-weight: 600;
+  }
+
+
+  a {
+    text-decoration: none;
+    color: #040B29;
+    letter-spacing: 0.1em;
+  }
+
+  .layer_big a, .layer_small a {
+    color: #fff;
+  }
+
+  header a {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  
+  #welcome {
+    font-family: semplicitapro, sans-serif;
+    background-color: #040B29;
+    height: 65%;
+    position: relative;
+  }
+
+  #hi {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* margin: auto; */
+      /* max-width: 1000px; */
+      /* padding: 70px 0; */
+    text-align: center;
+  }
+
+  #welcome h3 {
+      padding: 30px 0;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1.5em;
+    color: #0075FE;
+  }
+
+  #welcome h2 {
+      /* letter-spacing: 0.1em;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 2em; */
+    color: #fff;
+  }
+
+  img#me {
+    width: 30%;
+    height: auto;
+  }
+
+  #about_me {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1500px;
+    margin: 0px 10%;
+    gap: 30px 150px;
+    align-items: center;
+  }
+
+  #topics {
+      /* padding: 20px 5%; */
+      /* height: 200px; */
+      background-color: white;
+      margin: 100px 0;
+  }
+
+  #topics_headlines {
+      /* padding: 30px 0; */
+      max-width: 1500px;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      gap: 30px 150px;
+  }
+
+  #topics_headlines h4 {
+    transition: color 0.3s ease-in-out 0s;
+  }
+
+    #topics_headlines a h4:hover {
+      color: #fb8500;
+  }
+  
+
+  #workshop_blocks {
+      color: white;
+      width: 100%;
+    display: flex;
+    text-transform: uppercase;
+    /* flex-flow: row wrap; */
+    /* justify-content: space-between; */
+  }
+
+  .layer_big {
+      width: 35%;
+  }
+
+  .layer_small {
+      width: 30%;
+  }
+
+  .layer_big, .layer_small {
+    height: 300px;
+    /* padding: 50px 0; */
+    /* margin: 50px 0px; */
+    background-size: cover;
+    text-align: center;
+  }
+
+    /* .workshop_type_big {
+      width: 35%;
+  }
+
+  .workshop_type_small {
+    width: 30%;
+} */
+
+    .workshop_type {
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 11, 41, 0.3);
+    padding: 50px 0;
+    /* margin: 50px 0px;
+    height: 300px; */
+}
+
+
+/* .workshop_type_big h4, .workshop_type_small h4 {
+    margin: 50px 0;
+} */
+
+#final {
+  color: white;
+  /* width: 100%; */
+text-transform: uppercase; 
+margin: 100px 0;
+
+}
+
+#excursion_lab {
+  display: flex;
+  width: 100%;
+}
+
+.wrapper {
+  
+  width: 50%;
+  height: 400px;
+  /* padding: 50px 0; */
+  background-size: cover;
+  text-align: center;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 11, 41, 0.3);
+    padding: 50px 0;
+}
+
+#footer {
+  background-color: #fff;
+  width: 100%;
+  height: 400px;
+}
+
+.topic_block {
+  margin: 0px 10%;
+  max-width: 1500px;
+}
+
+/*playful interactions*/
+
+img#swing {
+  width: 50%;
+  float: right;
+  padding: 0 0 50px 50px;
+}
+
+.tree {
+  float: right;
+  width: 30%;
+  padding: 0 0 50px 50px;
+}
+
+/* .youtube_video {
+  max-width: 800;
+  float: left;
+  padding: 0 50px 50px 0;
+} */
+
+.assignment_block {
+
+  max-width: 1200px;
+  margin: 0px 10%;
+}
