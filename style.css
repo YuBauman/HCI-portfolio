@@ -244,7 +244,7 @@ margin: 100px 0;
 }
 
 .topic_block {
-  margin: 0px 10%;
+  margin: 0px 10% 100px 10%;
   max-width: 1500px;
 }
 
@@ -272,4 +272,13 @@ img#swing {
 
   max-width: 1200px;
   margin: 0px 10%;
+}
+
+.topic_block a {
+  color: blue;
+  font-weight: 600;
+}
+
+img.example_pictures {
+  width: 50%;
 }
