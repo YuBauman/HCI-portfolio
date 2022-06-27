@@ -40,7 +40,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/bJSqL2CpFmw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
             <button type="button" class="collapsible">Code Changing LED lights on temperature/touch</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>int RedLedPin = 13; 
               int GreenLedPin = 12;
               int sensorPin = A0;
@@ -71,7 +71,7 @@
         </div>
 
         <button type="button" class="collapsible">Code Changing LED on temperature (CELCIUS)</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>int RedLedPin = 13; 
               int GreenLedPin = 12;
               int YellowLedPin = 8;
@@ -167,7 +167,7 @@
             <img class = "example_pictures" src="Day 2/IMG_0300.jpg">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/ub1Z6-vgVYo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Code consequent LED strip light up</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>#include <FastLED.h>
 
               #define LED_PIN     10
@@ -212,7 +212,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/nf2IxWShpzE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/0bY3D5-squ4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Code Turn LEDs on and off with button</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>#include <FastLED.h>
               //#include <CapacitiveSensor.h>
               //CapacitiveSensor touchSwitch = CapacitiveSensor(A0);
@@ -272,7 +272,7 @@
             This day we worked on the capacitive touch interaction. We managed to make a toggle switch with the button, but for our final installation we would like to have a capacitive touch interaction. We took as a base the code with the button that we figured out in the previous day, and changed it in a way, that capacitive touch also works as a toggle switch. One the first touch the LEDs light up, on the second touch they turn off.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/-8aZUVxUda4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <button type="button" class="collapsible">Code Capacitive touch toggle switch LEDS</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <CapacitiveSensor.h>
             #include <FastLED.h>
             
@@ -327,7 +327,7 @@
             We also were experimenting with connecting capacitive touch with processing. Our idea was to make each touchpoint draw different visuals in the processing. At the end, we made a connection with the code with the lights and managed to make it work with the processing as well.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/9bz9XMRWuDA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <button type="button" class="collapsible">Arduino + Processing capacitive touch. Processing code</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>import processing.serial.*;
             Serial myPort;
             float sensorReading=0;
@@ -361,7 +361,7 @@
       </div>
 
       <button type="button" class="collapsible">Arduino + Processing capacitive touch. Arduino code</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <CapacitiveSensor.h>
             CapacitiveSensor touchSwitch[1] = CapacitiveSensor(4, 2);
             int LEDpin = 11;
@@ -420,7 +420,7 @@
           <p>I also tried to solve the issue with the MPR121 board, and after all I managed to figure out the code and create two toggle switches for two LED lights. It turned out I had to connect power wire to 3.3V of the arduino instead of 5V, then the capacitive touch interaction worked properly. Tomorrow I’m planning to try to apply this code to our LED strips.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/KNcx9z_BpbE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <button type="button" class="collapsible">MPR121 board. Turn on/off LED pin - on Hold code</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <Wire.h>
             #include "Adafruit_MPR121.h"
             
@@ -516,7 +516,7 @@
           </pre>
       </div>
       <button type="button" class="collapsible">MPR121 board. Turn on/off LED pin - Toggle switch code</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <Wire.h>
             #include "Adafruit_MPR121.h"
             
@@ -585,7 +585,7 @@
       </div>
 
       <button type="button" class="collapsible">MPR121 board. Toggle switch 2 LEDS/2 touchpoints Code</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <Wire.h>
             #include "Adafruit_MPR121.h"
             
@@ -691,7 +691,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/L_KZESWxmW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <a href="https://youtube.com/shorts/L_KZESWxmW4?feature=share" target="_blank"><p>Youtube shorts: Video of LED strips working with MPR121 board</p></a>
             <button type="button" class="collapsible">MPR121 board. Code 4 touchpoints + 3 LED strips</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <Wire.h>
             #include "Adafruit_MPR121.h"
             #include <FastLED.h>
@@ -881,7 +881,7 @@
             <a href="https://www.youtube.com/shorts/X87_Bo-L3eY" target="_blank"><p>Youtube shorts: Me interacting with the final prototype</p></a>
 
             <button type="button" class="collapsible">Final code for LEDs with capacitive touch</button>
-          <div class="content">
+          <div class="collapsible_content">
           <pre>#include <Wire.h>
             #include "Adafruit_MPR121.h"
             #include <FastLED.h>

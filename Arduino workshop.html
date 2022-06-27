@@ -24,7 +24,7 @@
            <p>The assignment for this exercise is to make two LEDs blink at the same time.</p>
            <iframe width="560" height="315" src="https://www.youtube.com/embed/cETu08mmvKk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
            <button type="button" class="collapsible">Arduino Code Exercise 3B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>
               int yellowLed = 12;
               int redLed = 13;
@@ -55,7 +55,7 @@
         
             <iframe width="560" height="315" src="https://www.youtube.com/embed/35ceKcXylF4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 4C</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>int greenLedPin = 10; int yellowLedPin = 9;
 
                 void setup() { pinMode(greenLedPin, OUTPUT); pinMode(yellowLedPin, OUTPUT);
@@ -103,7 +103,7 @@
             <p>Assignment: Change the code so that one LED fades in while the other fades out and vice versa.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/5Yhc3qLVehk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 6C</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>float sensorValue = 0; // variable for sensor value
                 int sensorPin = A0; // variable for sensor pin
                 int greenLedPin = 10;
@@ -146,7 +146,7 @@
             <p>Assignment: Copy, upload and execute the code on the next page to your Arduino board. A smiley face and a frowney face should alternate every second.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/q7pdHIqW8GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 7A</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>#include "LedControl.h"
                 /*
                 DIN connects to pin 12 CLK connects to pin 11 CS connects to pin 10
@@ -185,7 +185,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/ZmU5PXvSVjs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/0KQjCLbi84A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 8A</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>float sensorValue = 0; // variable for sensor value
                 int sensorPin = A0; // variable for sensor pin
                 int greenLedPin = 10;
@@ -231,7 +231,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/HJolLlFXt_U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/bDetqCUtYiA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 9C</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>int speakerPin = 8;
                 void setup() { pinMode(speakerPin, OUTPUT);
                 }
@@ -256,7 +256,7 @@
             <p>Assignment: Make yellow LED blink when something is withing 50cm distance from the distance sensor.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/--POjKQLqy4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 11C</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>const int echoPin = 6;
                 const int trigPin = 7;
                 int yellowLedPin = 8;
@@ -308,7 +308,7 @@
             <p>I connected Arduino and Processing, and for the input in Arduino I used pot-meter to change the size of the circle that is drawn in Processing. As I turn the pot-meter, it either increases or decreases the diameter of the circle in Processing.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/shBnGHvY2rA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 12D</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>float sensorValue = 0; 
                 int sensorPin = A0; 
                 int greenLedPin = 10;
@@ -338,7 +338,7 @@
         </div>
 
         <button type="button" class="collapsible">Processing Code Exercise 12D</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>import processing.serial.*;
                 Serial myPort;
                 String sensorReading="";
@@ -368,7 +368,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/xVYsA88Z3-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
             <button type="button" class="collapsible">Siren Arduino Code Exercise 13B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>char val;
                 int ledPin = 13; // Set ledPin to 13
                 int speakerPin = 8;
@@ -403,7 +403,7 @@
             </pre>
         </div>
         <button type="button" class="collapsible">Siren Processing Code Exercise 13B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>import processing.serial.*;
 
                 Serial myPort; // Create object from Serial class
@@ -446,7 +446,7 @@
         </div>
 
         <button type="button" class="collapsible">Piano Arduino Code Exercise 13B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>char val;
                 int ledPin = 13; // Set ledPin to 13
                 int speakerPin = 8;
@@ -491,7 +491,7 @@
         </div>
 
         <button type="button" class="collapsible">Piano Processing Code Exercise 13B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>import processing.serial.*;
 
                 Serial myPort; // Create object from Serial class
@@ -562,7 +562,7 @@
             <p>Assignment: Change the code. The LED should turn off while the button is pressed.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/qNz63OTqdsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 14B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>// constants won't change. They're used here to set pin numbers:
                 const int buttonPin = 2;     // the number of the pushbutton pin
                 const int ledPin =  13;      // the number of the LED pin
@@ -599,7 +599,7 @@
             <p>Assignment: Change the code in a way that the servo will move in a more interesting way. Try to make the servo move in a funny, rhythmical way. Teach it how to dance.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/6k4xetYLC9k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 15B</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>#include <Servo.h> 
 
                 Servo myServo; 
@@ -683,7 +683,7 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/POicXDLYY9U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/CMOsDZEtDzQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <button type="button" class="collapsible">Arduino Code Exercise 16D</button>
-            <div class="content">
+            <div class="collapsible_content">
             <pre>#include <CapacitiveSensor.h>
 
                 CapacitiveSensor touchSwitch = CapacitiveSensor(4, 2);

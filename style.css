@@ -230,7 +230,7 @@ margin: 100px 0;
   text-align: center;
 }
 
-.content2 {
+.content {
     width: 100%;
     height: 100%;
     background: rgba(4, 11, 41, 0.3);
@@ -307,7 +307,7 @@ img.example_pictures_vertical {
 }
 
 /* Style the collapsible content. Note: hidden by default */
-.content {
+.collapsible_content {
   padding: 0 18px;
   display: none;
   overflow: scroll;
