@@ -5,6 +5,7 @@
     <title>Topic: Playful Interactions</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.typekit.net/wuk8pmq.css">
+    <script src="main.js" defer></script>
   </head>
   <body>
     <header>
@@ -27,43 +28,375 @@
             <h2>Day 1</h2>
             <p>In the first day we had a team building exercise with our new team where we came up with the team name and tangible logo. Our team is called WingPlay and represents the team of people who love exploring new cultures and things.</p>
             <img class = "example_pictures_vertical" src = "Lab weeks day 1/IMG_0291.jpg">
-            <p>Before starting the brainstorming for the concept, our team shared some of the ideas everyone already had individually, and we shared with each other what interactions we would be interested to work on. For example, we discussed the possibility to implement touch interactions, temperature detection etc.</p>
-            <p>After that, we spent some time brainstorming the ideas, doing research on existing interactive projects, composing inspiration board on MIRO. I personally started exploring the temperature interaction and worked with Arduino kit to make different LED lights light up depending on the temperature. The biggest challenge was to figure out how to convert input from a thermistor voltage divider to a temperature value - celsius. By the end of the day, I managed to build a code that works with celsius temperature, using the formula that represents linear relation between temperature value and output voltage, as thermistos resistance decreased when the temperature increases.</p>
+        </div>
+        <div class="topic_block">
+            <p><span>Brainstorming ideas</span><br>Before starting the brainstorming for the concept, our team shared some of the ideas everyone already had individually, and we shared with each other what interactions we would be interested to work on. For example, we discussed the possibility to implement touch interactions, temperature detection etc. After that, we spent some time brainstorming the ideas, doing research on existing interactive projects, composing inspiration board on MIRO. After that, we had the summary and approximate direction we would like to go. </p>
+            <img class = "example_pictures" src="Lab weeks day 1/Ideas lab weeks.jpg">
+          </div>
+            <div class="topic_block">
+            <p><span>Temperature change interaction</span><br>
+              I personally started exploring the temperature interaction and worked with Arduino kit to make different LED lights light up depending on the temperature. As the input was shown in random number value and not celcius, it was difficult to makes sense out of it to work with it further. I needed to convert this value into temperature value, so it was quite challenging to figure out how to convert input from a thermistor voltage divider to a temperature value - celsius. By the end of the day, I managed to build a code that works with celsius temperature, using the formula that represents linear relation between temperature value and output voltage, as thermistos resistance decreased when the temperature increases.</p>
             <img class = "example_pictures" src="Lab weeks day 1/Temperature voltage.jpg">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/bJSqL2CpFmw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <button type="button" class="collapsible">Code Changing LED lights on temperature/touch</button>
+            <div class="content">
+            <pre>int RedLedPin = 13; 
+              int GreenLedPin = 12;
+              int sensorPin = A0;
+              
+              void setup() { 
+              pinMode(RedLedPin, OUTPUT); 
+              pinMode(GreenLedPin, OUTPUT);
+              pinMode(sensorPin, INPUT); 
+              Serial.begin(9600);
+              }
+              
+              void loop() {
+              int sensorValue = analogRead(sensorPin); // read sensorpin
+              
+              if (sensorValue > 465) {
+                digitalWrite (RedLedPin, HIGH);
+                digitalWrite (GreenLedPin, LOW);
+              }
+              if (sensorValue < 465) {
+                digitalWrite (GreenLedPin, HIGH);
+                digitalWrite (RedLedPin, LOW);
+              }
+              
+              Serial.println(sensorValue); // print to serial monitor
+              //delay(10); // wait 10ms 
+              }
+            </pre>
+        </div>
+
+        <button type="button" class="collapsible">Code Changing LED on temperature (CELCIUS)</button>
+            <div class="content">
+            <pre>int RedLedPin = 13; 
+              int GreenLedPin = 12;
+              int YellowLedPin = 8;
+              int sensorPin = A0;
+              
+              
+              void getTemp(float * t)
+              {
+              
+                  // Converts input from a thermistor voltage divider to a temperature value.
+                  // The voltage divider consists of thermistor Rt and series resistor R0.
+                  // The value of R0 is equal to the thermistor resistance at T0.
+                  // You must set the following constants:
+                  //                  adcMax  ( ADC full range value )
+                  //                  analogPin (Arduino analog input pin)
+                  //                  invBeta  (inverse of the thermistor Beta value supplied by manufacturer).
+                  // Use Arduino's default reference voltage (5V or 3.3V) with this module.
+                  //
+              
+                const int analogPin = 0; // replace 0 with analog pin
+                const float invBeta = 1.00 / 3380.00;   // replace "Beta" with beta of thermistor
+              
+                const  float adcMax = 1023.00;
+                const float invT0 = 1.00 / 298.15;   // room temp in Kelvin
+              
+                int adcVal, i, numSamples = 5;
+                float  K, C, F;
+              
+                adcVal = 0;
+                for (i = 0; i < numSamples; i++)
+                 {
+                   adcVal = adcVal + analogRead(analogPin);
+                   delay(100);
+                 }
+                adcVal = adcVal/5;
+                K = 1.00 / (invT0 + invBeta*(log ( adcMax / (float) adcVal - 1.00)));
+                C = K - 273.15;                      // convert to Celsius
+                t[0] = K; t[1] = C;
+                return;
+              }
+              
+              void setup()
+              {
+                analogReference(DEFAULT);
+                pinMode(RedLedPin, OUTPUT); 
+                pinMode(GreenLedPin, OUTPUT);
+                pinMode(YellowLedPin, OUTPUT);
+                pinMode(sensorPin, INPUT);
+                Serial.begin(9600);
+              }
+              
+              void loop()
+              {
+              //  int sensorValue = analogRead(sensorPin);
+                
+                float temp[2];
+                getTemp(temp);
+                
+                if ((temp[1]) > 25) {
+                digitalWrite (RedLedPin, 255);
+                digitalWrite (GreenLedPin, 0);
+                digitalWrite (YellowLedPin, 0);
+              }
+              if ((temp[1]) < 25 && temp[1] > 22) {
+                digitalWrite (GreenLedPin, 255);
+                digitalWrite (RedLedPin, 0);
+                digitalWrite (YellowLedPin, 0);
+              }
+              
+              if ((temp[1]) < 22) {
+                digitalWrite (YellowLedPin, 255);
+                digitalWrite (RedLedPin, 0);
+                digitalWrite (GreenLedPin, 0);
+              }
+              
+                Serial.print("Temperature is     ");
+                Serial.print(temp[0]); Serial.print(" Kelvin      ");
+                Serial.print(temp[1]); Serial.print(" deg. C      ");
+                Serial.println();
+                delay(2000);
+                return;
+              }
+            </pre>
+        </div>
         </div>
 
         <div class = "topic_block">
             <h2>Day 2</h2>
-            <p>Today my team and I were focusing on working with LED strips, interaction with the buttong and capacitive touch. We also worked on the animations in Processing that depends on sound/frequency level.</p>
-            <p>I was working together with another team mate on creating the interaction with the button and LED strips. First, we were figuring out how to connect the LED strip to the Arduino properly and call for each individual light on the strip</p>
+            <p>Today my team and I were focusing on working with LED strips, interaction with the button and capacitive touch. We also worked on the animations in Processing that depends on sound/frequency level.</p>
+            <p><span>Starting with LED strip</span><br>
+              I was working together with another team mate on creating the interaction with the button and LED strips. First, we were figuring out how to connect the LED strip to the Arduino properly and call for each individual light on the strip</p>
             <p>First, we managed to code the way that each light lights up after another after some short delay. Our goal was to make several LED lights light up together in one color, then next group of lights in another color etc. Working with LED strips was more exciting than with LED pins, but also required more coding and time for us to figure out how it works. This is the result that we got at the end.</p>
             <img class = "example_pictures" src="Day 2/IMG_0300.jpg">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/ub1Z6-vgVYo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <p>After that, we wanted to create an interaction with the button, so the specific lights turn on and off with the button press. First we managed to make LED strip light up while the button is heThe most challenging part for us was to figure out how to create a toggle switch with the same button. After some research, we created the condition in the code that made the system remember last state of the button. This way we alternated the outcome based on the last and current button state.</p>
+            <button type="button" class="collapsible">Code consequent LED strip light up</button>
+            <div class="content">
+            <pre>#include <FastLED.h>
+
+              #define LED_PIN     10
+              #define NUM_LEDS    60
+              
+              CRGB leds[NUM_LEDS];
+              
+              void setup() {
+                FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+              }
+              void loop() {
+                for (int i=0; i<=9; i++) {
+                leds[i] = CRGB(255, 0, 0);
+                FastLED.show();
+                }
+                 delay(500);
+            
+              for (int i=10; i<=19; i++) {
+                leds[i] = CRGB(0, 0, 255);
+                FastLED.show();
+              }
+                  delay(500);
+              
+                  for (int i=20; i<=29; i++) {
+                leds[i] = CRGB(150, 0, 255);
+                FastLED.show();
+              }
+                  delay(500);
+              
+                  for (int i=30; i<=39; i++) {
+                leds[i] = CRGB(0, 255, 0);
+                FastLED.show();
+              }
+                  delay(500);
+              }
+            </pre>
+        </div>
+        </div>
+        <div class="topic_block">
+            <p><span>Button interaction - light up LED strip</span><br>
+              After that, we wanted to create an interaction with the button, so the specific lights turn on and off with the button press. First we managed to make LED strip light up while the button is pressed. The most challenging part for us was to figure out how to create a toggle switch with the same button. After some research, we created the condition in the code that made the system remember last state of the button. This way we alternated the outcome based on the last and current button state.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/nf2IxWShpzE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/0bY3D5-squ4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Code Turn LEDs on and off with button</button>
+            <div class="content">
+            <pre>#include <FastLED.h>
+              //#include <CapacitiveSensor.h>
+              //CapacitiveSensor touchSwitch = CapacitiveSensor(A0);
+              //int sensorPin = A0;
+              //int sensorValue;
+              #define LED_PIN     10
+              #define NUM_LEDS    60
+              
+              int buttonPin = 3;
+              int buttonState;
+              int ledState = LOW;
+              int lastButtonState;
+              int currentButtonState;
+              CRGB leds[NUM_LEDS];
+              
+              void setup() {
+                 pinMode(buttonPin, INPUT);
+                FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+                currentButtonState = digitalRead(buttonPin);
+                
+              }
+              
+              void loop() {
+              lastButtonState = currentButtonState;
+              currentButtonState = digitalRead(buttonPin);
+              
+              if (lastButtonState== HIGH && currentButtonState==LOW ) {
+                Serial.print("The button is pressed");
+                
+                if(ledState ==LOW){
+                  ledState = HIGH;
+                  for (int i=0; i<=9; i++) {
+                leds[i] = CRGB(0, 0, 0);
+                FastLED.show();
+                }
+              }else{
+                ledState = LOW;
+                for (int i=0; i<=9; i++) {
+                leds[i] = CRGB(255, 0, 0);
+                FastLED.show();
+                }
+              }digitalWrite(LED_PIN, ledState);
+              
+              }
+              }
+            </pre>
+        </div>
+      </div>
+      <div class="topic_block">
             <p>After that, we worked on combining our working lights with the installation decorations. As we decided to create a cloud sky, we created a scale model of this sky on the table and tried it out together with the lights.</p>
             <img class="example_pictures" src="Day 2/IMG_0306.jpg">
         </div>
 
         <div class="topic_block">
           <h2>Day 3</h2>
-          <p>This day we worked on the capacitive touch interaction. We managed to make a toggle switch with the button, but for our final installation we would like to have a capacitive touch interaction. We took as a base the code with the button that we figured out in the previous day, and changed it in a way, that capacitive touch also works as a toggle switch. One the first touch the LEDs light up, on the second touch they turn off.</p>
+          <p><span>Capacitive touch interaction</span><br>
+            This day we worked on the capacitive touch interaction. We managed to make a toggle switch with the button, but for our final installation we would like to have a capacitive touch interaction. We took as a base the code with the button that we figured out in the previous day, and changed it in a way, that capacitive touch also works as a toggle switch. One the first touch the LEDs light up, on the second touch they turn off.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/-8aZUVxUda4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <p>We also were experimenting with connecting capacitive touch with processing. Our idea was to make each touchpoint draw different visuals in the processing. At the end, we made a connection with the code with the lights and managed to make it work with the processing as well.</p>
+          <button type="button" class="collapsible">Code Capacitive touch toggle switch LEDS</button>
+          <div class="content">
+          <pre>#include <CapacitiveSensor.h>
+            #include <FastLED.h>
+            
+            CapacitiveSensor touchSwitch = CapacitiveSensor(4, 2);
+            
+            int sensorValue = 0;
+            #define LED_PIN     10
+            #define NUM_LEDS    60
+            
+            int lastSensorState;
+            int currentSensorState;
+            int ledState = LOW;
+            CRGB leds[NUM_LEDS];
+            
+            
+            void setup() {
+              FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+              currentSensorState = touchSwitch.capacitiveSensor(100);
+              Serial.begin(9600);
+            }
+            
+            void loop() {
+            lastSensorState = currentSensorState;
+            currentSensorState = touchSwitch.capacitiveSensor(100);
+            
+            if (lastSensorState < 1000 && currentSensorState > 1000 ) {
+              Serial.print(currentSensorState);
+              
+              if(ledState ==LOW){
+                ledState = HIGH;
+                for (int i=0; i<=9; i++) {
+              leds[i] = CRGB(0, 0, 0);
+              FastLED.show();
+              }
+            }else{
+              ledState = LOW;
+              for (int i=0; i<=9; i++) {
+              leds[i] = CRGB(255, 0, 0);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState);
+            
+            }
+            }
+          </pre>
+      </div>
+        </div>
+
+        <div class="topic_block">
+
+          <p><span>Capacitive touch with Processing</span><br>
+            We also were experimenting with connecting capacitive touch with processing. Our idea was to make each touchpoint draw different visuals in the processing. At the end, we made a connection with the code with the lights and managed to make it work with the processing as well.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/9bz9XMRWuDA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <p>This day we also spent some time in a hardware store trying to figure out how to build our installation. As we were brainstorming what settings and materials to use, we figured out that some ideas that seemed to work in out heads, didn’t seem like working in real life. At this point we are still in the process of figuring out the best setting and materials for the final project.</p>
+          <button type="button" class="collapsible">Arduino + Processing capacitive touch. Processing code</button>
+          <div class="content">
+          <pre>import processing.serial.*;
+            Serial myPort;
+            float sensorReading=0;
+            
+            
+            
+            void setup() {
+            size(400, 400);
+            myPort = new Serial(this, Serial.list()[1], 9600);
+            myPort.bufferUntil('\n');
+            }
+            
+            void serialEvent (Serial myPort) {
+            sensorReading = float (myPort.readStringUntil('\n'));
+            }
+            
+            void draw() {
+              if (sensorReading > 1000) {
+                println ("Touched");
+            background(255);
+            fill(0);
+            text("Sensor Reading: " + sensorReading, 20, 20);
+            ellipse(width/2, height/2, 100, 100);
+            }
+            else {
+              println ("Not touched");
+              background(0);
+            }
+            }
+          </pre>
+      </div>
+
+      <button type="button" class="collapsible">Arduino + Processing capacitive touch. Arduino code</button>
+          <div class="content">
+          <pre>#include <CapacitiveSensor.h>
+            CapacitiveSensor touchSwitch[1] = CapacitiveSensor(4, 2);
+            int LEDpin = 11;
+            int sensorValue = 0;
+            
+            void setup(){
+            pinMode(LEDpin, OUTPUT);
+            Serial.begin(9600);
+            }
+            
+            void loop(){
+              long val = touchSwitch[1].capacitiveSensor(100);
+                
+            Serial.println(val);
+            }
+          </pre>
+      </div>
+        </div>
+        <div class="topic_block">
+          <p><span>Installation set-up</span><br>
+            This day we also spent some time in a hardware store trying to figure out how to build our installation. As we were brainstorming what settings and materials to use, we figured out that some ideas that seemed to work in out heads, didn’t seem like working in real life. At this point we are still in the process of figuring out the best setting and materials for the final project.</p>
           <img class="example_pictures_vertical" src="Day 3/IMG_0315.jpg">
         </div>
 
         <div class="topic_block">
           <h2>Day 4</h2>
-          <p>Today we worked mainly on combining several touchpoints, and connect them to different outputs on the interaction. We continued to experiment with LED strips. We managed to make four touchpoints, and each of them lighted up different parts of the LED strip on the touch. Each touchpoint works as a toggle switch, so the lights can be turned off and on. </p>
+          <p><span>Several touch points</span><br>
+            Today we worked mainly on combining several touchpoints, and connect them to different outputs on the interaction. We continued to experiment with LED strips. We managed to make four touchpoints, and each of them lighted up different parts of the LED strip on the touch. Each touchpoint works as a toggle switch, so the lights can be turned off and on. </p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/pFXg96OxhYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <p>After that we experimented with the way the lights work, instead of just turning them on all at the same time, we tried different combinations.</p>
+          <p>After that we experimented with the way the lights work, instead of just turning them on all at the same time, we tried different combinations. For example, "running" lights, so each NeoPixel lights up with delay after another.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/c7cjOvC3FWg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <p>At this moment we decided to attach together more LED strips and see how it works. We used the wires to connect two LED strips and soldered them together, extending the amount of lights in the circuit. We changed the code a bit as now we had more lights in one chain, so using four capacitive touch points we could include the whole chain of LED strips. At this moment, we managed to include two LED strips in the interaction.</p>
+        </div>
+        <div class="topic_block">
+          <p><span>Extending LED strip lenght</span><br>
+            At this moment we decided to attach together more LED strips and see how it works. We used the wires to connect two LED strips and soldered them together, extending the amount of lights in the circuit. We changed the code a bit as now we had more lights in one chain, so using four capacitive touch points we could include the whole chain of LED strips. At this moment, we managed to include two LED strips in the interaction.</p>
           <p>We also combined it with our decoration for the clouds to see how it would work on the final installation. At this time, the rest of my team was working on connecting capacitive touch to the sounds. Our idea is to also turn on and off different sound based on the touchpoint. Using our code for the lights, we managed to connect it to the processing, and make it work with the sounds as well.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/ywlDOxg1ZRI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/o0W7O1jIzBc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -75,35 +408,450 @@
           <p>Today our team started with figuring out the set up for our installation. For our final installation we need closed dark space with the ceiling where we can attach our sky. For this we flipped two tables and tried to place the blanket on top. We first tried to create a sitting place with the chair, but felt that it was too high and not very comfortable. Since we want to create the atmosphere of the huts we all built in our childhood, we decided to make the floor with pillows. For that we brought the palette that will work as the floor, and on top of that we decided to put pillows. We still need to figure out how to make the proper ceiling that would be stable between two tables. At the end of the day, we had this prototype ready.</p>
           <img class="example_pictures_vertical" src="Day 5/IMG_0380.jpg">
           <img class="example_pictures" src="Day 5/IMG_0383.jpg">
-          <p>After that, I personally was working on creating capacitive touch interaction wit MPR121 board with 12 different touchpoints. I spent time to attach it properly to the arduino board and create the connection. My classmate helped me to solder the board to the wires. In a meantime my group mates were working on connecting the processing and arduino. They created the visuals in processing that would go off with the capacitive touch, as well as music/sounds. Our idea is to allow people switch between different music or sounds with several touchpoints. We also want to have one touchpoint that allows users to switch between animated visuals in processing that will be shown on the ceiling of our installation. We still try to figure out how to make it work without using the projector, as we don’t have space to use that one.</p>
+        </div>
+        <div class="topic_block">
+          <p><span>Including MPR121 Capacitive touch board</span><br>
+            As we had many touch points, we decided to include MPR121 touch board in our circuit, so we decrease amount of wires needed for connection. I personally was working on creating capacitive touch interaction with MPR121 board with 12 different touchpoints. I spent time to attach it properly to the arduino board and create the connection. My classmate helped me to solder the board to the wires. In the meantime, my group mates were working on connecting the processing and arduino. They created the visuals in processing that would go off with the capacitive touch, as well as music/sounds. Our idea is to allow people switch between different music or sounds with several touchpoints. We also want to have one touchpoint that allows users to switch between animated visuals in processing that will be shown on the ceiling of our installation. We still try to figure out how to make it work without using the projector, as we don’t have space to use that one.</p>
           <img class="example_pictures_vertical" src="Day 5/IMG_0388.jpg">
-          <p>My experience with MPR121 capacitive touch board was a bit frustrating and challenging, as I couldn’t figure out how to make this board work properly. By the end of the day, I felt a bit frustrated, because our team encountered problems with power supply as well. We had too many LED strips in one circuit, and also we had a wrong battery of 9V that could easily burn the lights. We had to spend some time figuring out what type of power supply we need and how to connect it to the circuit and all the LED strips in a way, that it would be enough for all NeoPixels to work properly. At the end of the day we seem to find a solution, but we have to try it out tomorrow.</p>
+        </div>
+        <div class="topic_block">
+          <p><span>Encountered issues with power supply and MPR121 board</span><br>
+            My experience with MPR121 capacitive touch board was a bit frustrating and challenging, as I couldn’t figure out how to make this board work properly. The capacitive touch was not working as expected, the interaction was not clean and didn't give expected output. By the end of the day, I felt a bit frustrated, because our team encountered problems with power supply as well. We had too many LED strips in one circuit, and also we had a wrong battery of 9V that could easily burn the lights. We had to spend some time figuring out what type of power supply we need and how to connect it to the circuit and all the LED strips in a way, that it would be enough for all NeoPixels to work properly. At the end of the day we seem to find a solution, but we have to try it out tomorrow.</p>
           <p>I also tried to solve the issue with the MPR121 board, and after all I managed to figure out the code and create two toggle switches for two LED lights. It turned out I had to connect power wire to 3.3V of the arduino instead of 5V, then the capacitive touch interaction worked properly. Tomorrow I’m planning to try to apply this code to our LED strips.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/KNcx9z_BpbE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <button type="button" class="collapsible">MPR121 board. Turn on/off LED pin - on Hold code</button>
+          <div class="content">
+          <pre>#include <Wire.h>
+            #include "Adafruit_MPR121.h"
+            
+            #ifndef _BV
+            #define _BV(bit) (1 << (bit)) 
+            #endif
+            
+            int ledPin = 13;
+            
+            
+            // You can have up to 4 on one i2c bus but one is enough for testing!
+            Adafruit_MPR121 cap = Adafruit_MPR121();
+            
+            // Keeps track of the last pins touched
+            // so we know when buttons are 'released'
+            uint16_t lasttouched = 0;
+            uint16_t currtouched = 0;
+            
+            void setup() {
+              Serial.begin(9600);
+            
+              while (!Serial) { // needed to keep leonardo/micro from starting too fast!
+                delay(10);
+              }
+              
+              Serial.println("Adafruit MPR121 Capacitive Touch sensor test"); 
+              
+              // Default address is 0x5A, if tied to 3.3V its 0x5B
+              // If tied to SDA its 0x5C and if SCL then 0x5D
+              if (!cap.begin(0x5A)) {
+                Serial.println("MPR121 not found, check wiring?");
+                while (1);
+              }
+              Serial.println("MPR121 found!");
+            
+              pinMode (ledPin, OUTPUT);
+            
+              TurnOn();
+              TurnOff();
+            }
+            
+            
+            void TurnOn() {
+              digitalWrite (ledPin, HIGH);
+            }
+            
+            void TurnOff() {
+              digitalWrite (ledPin, LOW);
+            }
+            
+            
+            void loop() {
+              // Get the currently touched pads
+              currtouched = cap.touched();
+              
+              for (uint8_t i=0; i<2; i++) {
+                // it if *is* touched and *wasnt* touched before, alert!
+                if ((currtouched & _BV(i)) && !(lasttouched & _BV(i)) ) {
+                  Serial.print(i); Serial.println(" touched");
+                  TurnOn();
+                  
+                }
+                // if it *was* touched and now *isnt*, alert!
+                else if (!(currtouched & _BV(i)) && (lasttouched & _BV(i)) ) {
+                  Serial.print(i); Serial.println(" released");
+                  TurnOff();
+                  
+                }
+              }
+            
+              // reset our state
+              lasttouched = currtouched;
+            
+              // comment out this line for detailed data from the sensor!
+              return;
+              
+              // debugging info, what
+              Serial.print("\t\t\t\t\t\t\t\t\t\t\t\t\t 0x"); Serial.println(cap.touched(), HEX);
+              Serial.print("Filt: ");
+              for (uint8_t i=0; i<12; i++) {
+                Serial.print(cap.filteredData(i)); Serial.print("\t");
+              }
+              Serial.println();
+              Serial.print("Base: ");
+              for (uint8_t i=0; i<12; i++) {
+                Serial.print(cap.baselineData(i)); Serial.print("\t");
+              }
+              Serial.println();
+              
+              // put a delay so it isn't overwhelming
+              delay(100);
+            }
+          </pre>
+      </div>
+      <button type="button" class="collapsible">MPR121 board. Turn on/off LED pin - Toggle switch code</button>
+          <div class="content">
+          <pre>#include <Wire.h>
+            #include "Adafruit_MPR121.h"
+            
+            #ifndef _BV
+            #define _BV(bit) (1 << (bit)) 
+            #endif
+            
+            int ledPin = 13;
+            int ledState = LOW;
+            
+            // You can have up to 4 on one i2c bus but one is enough for testing!
+            Adafruit_MPR121 cap = Adafruit_MPR121();
+            
+            // Keeps track of the last pins touched
+            // so we know when buttons are 'released'
+            uint16_t lasttouched = 0;
+            uint16_t currtouched = 0;
+            
+            void setup() {
+              Serial.begin(9600);
+            
+              while (!Serial) { // needed to keep leonardo/micro from starting too fast!
+                delay(10);
+              }
+              
+              Serial.println("Adafruit MPR121 Capacitive Touch sensor test"); 
+              
+              // Default address is 0x5A, if tied to 3.3V its 0x5B
+              // If tied to SDA its 0x5C and if SCL then 0x5D
+              if (!cap.begin(0x5A)) {
+                Serial.println("MPR121 not found, check wiring?");
+                while (1);
+              }
+              Serial.println("MPR121 found!");
+            
+              pinMode (ledPin, OUTPUT);
+
+            }
+    
+            void loop() {
+              // Get the currently touched pads
+               // reset our state
+              lasttouched = currtouched;
+              currtouched = cap.touched();
+              
+              for (uint8_t i=0; i<2; i++) {
+                // it if *is* touched and *wasnt* touched before, alert!
+                if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (ledState == LOW) {
+                      ledState = HIGH;
+                       Serial.print(i); Serial.println(" touched");
+                    } else {
+                  Serial.print(i); Serial.println(" released");
+                  ledState = LOW;
+                  
+                } digitalWrite (ledPin, ledState);
+                    }         
+              }
+
+              // comment out this line for detailed data from the sensor!
+            //  return; 
+              // put a delay so it isn't overwhelming
+              delay(100);
+            }
+          </pre>
+      </div>
+
+      <button type="button" class="collapsible">MPR121 board. Toggle switch 2 LEDS/2 touchpoints Code</button>
+          <div class="content">
+          <pre>#include <Wire.h>
+            #include "Adafruit_MPR121.h"
+            
+            #ifndef _BV
+            #define _BV(bit) (1 << (bit)) 
+            #endif
+            
+            int ledPinRed = 13;
+            int ledPinGreen = 12;
+            int ledStateRed = LOW;
+            int ledStateGreen = LOW;
+              
+            // You can have up to 4 on one i2c bus but one is enough for testing!
+            Adafruit_MPR121 cap = Adafruit_MPR121();
+            
+            // Keeps track of the last pins touched
+            // so we know when buttons are 'released'
+            uint16_t lasttouched = 0;
+            uint16_t currtouched = 0;
+            
+            void setup() {
+              Serial.begin(9600);
+            
+              while (!Serial) { // needed to keep leonardo/micro from starting too fast!
+                delay(10);
+              }
+              
+              Serial.println("Adafruit MPR121 Capacitive Touch sensor test"); 
+              
+              // Default address is 0x5A, if tied to 3.3V its 0x5B
+              // If tied to SDA its 0x5C and if SCL then 0x5D
+              if (!cap.begin(0x5A)) {
+                Serial.println("MPR121 not found, check wiring?");
+                while (1);
+              }
+              Serial.println("MPR121 found!");
+            
+              pinMode (ledPinRed, OUTPUT);
+              pinMode (ledPinGreen, OUTPUT);
+            
+            }
+
+            void loop() {
+              // Get the currently touched pads
+               // reset our state
+              lasttouched = currtouched;
+              currtouched = cap.touched();
+              
+              for (uint8_t i=0; i<2; i++) {
+                // it if *is* touched and *wasnt* touched before, alert!
+                if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                  if (i==0) {
+                    if (ledStateRed == LOW) {
+                      ledStateRed = HIGH;
+                       Serial.print(i); Serial.println(" touched");
+                    }
+                     else {
+                  Serial.print(i); Serial.println(" released");
+                  ledStateRed = LOW;
+                    } digitalWrite (ledPinRed, ledStateRed);
+                  }
+                    }
+            
+                   if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==1) {
+                    if (ledStateGreen == LOW) {
+                      ledStateGreen = HIGH;
+                       Serial.print(i); Serial.println(" touched");
+                    }
+                     else {
+                  Serial.print(i); Serial.println(" released");
+                  ledStateGreen = LOW;
+                    } digitalWrite (ledPinGreen, ledStateGreen); 
+                    }
+
+              }
+
+              // comment out this line for detailed data from the sensor!
+            //  return;
+              // put a delay so it isn't overwhelming
+              delay(100);
+            }
+            }
+          </pre>
+      </div>
         </div>
 
         <div class="topic_block">
           <h2>Day 6</h2>
-          <p>Today we started the day with rearrangement of the batteries to fix the issue with power supply for LED strips. We added power supply in batteries in the beginning of each LED strip to make sure that each of them has enough power to operate properly. It was a bit challenging, as we had to connect properly all the wires and make sure that everything is connected and grounded. After all, we managed to make it work, so for LED strips to work properly we used a battery holder that included four AA batteries that calculated to 6V.</p>
+          <p><span>Solving batteries issue</span><br>
+            Today we started the day with rearrangement of the batteries to fix the issue with power supply for LED strips. We added power supply in batteries in the beginning of each LED strip to make sure that each of them has enough power to operate properly. It was a bit challenging, as we had to connect properly all the wires and make sure that everything is connected and grounded. After all, we managed to make it work, so for LED strips to work properly we used a battery holder that included four AA batteries that calculated to 6V.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/4wKrnFgTnMQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <a href="https://youtube.com/shorts/4wKrnFgTnMQ?feature=share" target="_blank"><p>Youtube shorts: Video of working LED strips with the batteries</p></a>
 
           <br>
-          <p>Nevertheless, we encountered another problem. We found out that our LED strips consume 3.6A that made them very bright, but it meant that our batteries would die in an hour of lights being constantly on. That would mean that we have to change the batteries evert hour, and considering that we used 12 batteries at the same time to power all LED strips in the circuit, even just for expo we would have to use around 50 batteries. That was too expensive and unsustainable for us, so we started looking for another solutions.
+          <p>Nevertheless, we encountered another problem. We found out that our LED strips consume 3.6A that made them very bright, but it meant that our batteries would die in an hour of lights being constantly on. That would mean that we have to change the batteries every hour, and considering that we used 12 batteries at the same time to power all LED strips in the circuit, even just for expo we would have to use around 50 batteries. That was too expensive and unsustainable for us, so we started looking for another solutions.
 
             With the help of Leiden students, we figured out that we could use the power supply that can be plugged in an outlet and provide around 10A, that would be enough for the whole LED strip we used.</p>
-
-            <p>In the meantime, I personally also worked on the code for MPR121 capacitive touch board, connecting it to the LED strips and increasing amount of touchpoints to 6. I combined the code I had from the previous day with the LED lights, and the code for LED strips. As we added more hardware, wires and functions, it became more and more complicated, so it took me some effort to compile the final code for capacitive touch board and LED strips. At the end, we had it working with 6 touchpoints and different colour modes on LED strips.</p>
+        </div>
+        <div class="topic_block">
+            <p><span>Connecting MPR121 board to LED strips</span><br>
+              In the meantime, I personally also worked on the code for MPR121 capacitive touch board, connecting it to the LED strips and increasing amount of touchpoints to 6. I combined the code I had from the previous day with the LED lights, and the code for LED strips. As we added more hardware, wires and functions, it became more and more complicated, so it took me some effort to compile the final code for capacitive touch board and LED strips. First I worked with 4 touch points, but at the end, we had it working with 6 touchpoints and different colour modes on LED strips.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/L_KZESWxmW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <a href="https://youtube.com/shorts/L_KZESWxmW4?feature=share" target="_blank"><p>Youtube shorts: Video of LED strips working with MPR121 board</p></a>
+            <button type="button" class="collapsible">MPR121 board. Code 4 touchpoints + 3 LED strips</button>
+          <div class="content">
+          <pre>#include <Wire.h>
+            #include "Adafruit_MPR121.h"
+            #include <FastLED.h>
+            
+            #ifndef _BV
+            #define _BV(bit) (1 << (bit)) 
+            #endif
+            
+            #define LED_PIN     13
+            #define NUM_LEDS    180
+            
+            int ledState = LOW;
+            int ledState2 = LOW;
+            int ledState3 = LOW;
+            int ledState4 = LOW;
+            
+            int brightness = map(NUM_LEDS, 0, 1023, 0, 255);
+            
+            CRGB leds[NUM_LEDS];
+            
+            
+            // You can have up to 4 on one i2c bus but one is enough for testing!
+            Adafruit_MPR121 cap = Adafruit_MPR121();
+            
+            // Keeps track of the last pins touched
+            // so we know when buttons are 'released'
+            uint16_t lasttouched = 0;
+            uint16_t currtouched = 0;
+            
+            void setup() {
+              Serial.begin(9600);
+              FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+            
+              while (!Serial) { // needed to keep leonardo/micro from starting too fast!
+                delay(10);
+              }
+              
+              Serial.println("Adafruit MPR121 Capacitive Touch sensor test"); 
+              
+              // Default address is 0x5A, if tied to 3.3V its 0x5B
+              // If tied to SDA its 0x5C and if SCL then 0x5D
+              if (!cap.begin(0x5A)) {
+                Serial.println("MPR121 not found, check wiring?");
+                while (1);
+              }
+              Serial.println("MPR121 found!");
+
+            }
+            
+            void loop() {
+              // Get the currently touched pads
+               // reset our state
+              lasttouched = currtouched;
+              currtouched = cap.touched();
+              
+              for (uint8_t i=0; i<4; i++) {
+                // it if *is* touched and *wasnt* touched before, alert!
+                if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                  if (i==0) {
+                    if(ledState ==LOW){
+                ledState = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=0; i<=45; i++) {
+              leds[i] = CRGB(0, 0, 0);
+              FastLED.show();
+              delay(10);
+              }
+            }else{
+              ledState = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=0; i<=45; i=i+2) {
+              leds[i] = CRGB(190, 0, 50);
+              leds[i + 1] = CRGB(150, 0, 200);
+              FastLED.show();
+              delay(10);
+              }
+            }digitalWrite(LED_PIN, ledState);
+                  }
+                    }
+            
+                   if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==1) {
+                    if(ledState2 ==LOW){
+                ledState2 = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=46; i<=90; i++) {
+              leds[i] = CRGB(0, 0, 0);
+              FastLED.show();
+              }
+            }else{
+              ledState2 = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=46; i<=90; i++) {
+              leds[i] = CRGB(0, 255, 0);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState2);
+                    }
+                  
+              }
+            
+              if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==2) {
+                    if(ledState3 ==LOW){
+                ledState3 = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=91; i<=135; i++) {
+              leds[i] = CRGB(0, 0, 0);
+              FastLED.show();
+              }
+            }else{
+              ledState3 = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=91; i<=135; i++) {
+              leds[i] = CRGB(0, 255, 0);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState3);
+                    }
+              }
+            
+              if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==3) {
+                    if(ledState4 ==LOW){
+                ledState4 = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=136; i<=180; i++) {
+              leds[i] = CRGB(0, 0, 0);
+              FastLED.show();
+              }
+            }else{
+              ledState4 = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=136; i<=180; i++) {
+              leds[i] = CRGB(0, 255, 0);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState4);
+                    }
+              }
+              // comment out this line for detailed data from the sensor!
+            //  return;
+              // put a delay so it isn't overwhelming
+              delay(100);
+            }
+            }
+          </pre>
+      </div>
         </div>
 
         <div class="topic_block">
           <h2>Day 7</h2>
-          <p>This day we started preparing the materials and the set up for our final prototype. We used the wooden board as a base for our ceiling that was placed between two tables. We cut the LED strips in several pieces, so we could position them on the board in the path we needed. We sticked the LED strips to the board, and after that we soldered all the LED strips together. Soldering LED strips was challenging part, as each part had to be soldered with 3 different wires and the connection had to stay good, so the whole LED circuit works properly. For our visuals from the processing we cut the hole in the board, and decided to place the computer screen from another side on the board.</p>
+          <p><span>Setting up LED strips board</span><br>
+            This day we started preparing the materials and the set up for our final prototype. We used the wooden board as a base for our ceiling that was placed between two tables. We cut the LED strips in several pieces, so we could position them on the board in the path we needed. We sticked the LED strips to the board, and after that we soldered all the LED strips together. Soldering LED strips was challenging part, as each part had to be soldered with 3 different wires and the connection had to stay good, so the whole LED circuit works properly. For our visuals from the processing we cut the hole in the board, and decided to place the computer screen from another side on the board.</p>
           <img class="example_pictures" src="Day 7/LED strip on the board.jpeg">
           <p>In the middle of the day, when all the lights were already attached to the board, we also received the power supply that we ordered to power LED strips, that worked from being plugged in an outlet. We connected it to out LED scheme and this power supply was working perfectly, as well as LED strips that we soldered. So to say, we connected everything properly and interaction with lights worked properly. We also took some time to extend the wires that we would use for our touchpoints, so we were soldering small pins with the main wires to make them several metres long.</p>
-          <p>Our team was also working on specific animations in the processing for visuals in the sky. We created four different abstract visuals that users would be able to choose from to create different atmosphere. We connected these visuals to the capacitive touch, so we could switch between visual using one of the touchpoints.</p>
+        </div>
+        <div class="topic_block">
+          <p><span>Visuals in Processing</span><br>
+            Our team was also working on specific animations in the processing for visuals in the sky. We created four different abstract visuals that users would be able to choose from to create different atmosphere. We connected these visuals to the capacitive touch, so we could switch between visual using one of the touchpoints.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/E95TGN7RQMc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <a href="https://youtube.com/shorts/E95TGN7RQMc?feature=share" target="_blank"><p>Youtube shorts: Video with Processing visuals and capacitive touch</p></a> <br>
           <p>Using the logic of the code with LED stripes and visuals, we created the interaction with the sounds. We decided to have four touchpoints for sounds and add three different sounds to each touchpoint. This way a user can combine different sounds and play his own melody. I was looking for different types of sounds like guitar, melody, beats etc. At the end of the day, we had all the interactions coded and connected to the Arduino boards.</p>
@@ -111,11 +859,16 @@
 
         <div class="topic_block">
           <h2>Day 8</h2>
-          <p>On this day we were putting together everything that we worked on the previous days. We put together the base of our set up with tables and the supporting pillars. After that, we attached all the wires to the wooden board that we used for the ceiling and secure them with the tape. We created the decorations for our touchpoints from aluminium foil so it would work properly with the capacitive touch. This day we figured out, that our capacitive touch doesn’t work properly with everyone. Sometimes the sensor was not sensitive enough that caused delay in reaction, or didn’t react on the touch at all. For that reason, I was working on changing the code in a way, that the sensitivity of capacitive touchboard increased. I managed to work it out and change the code in a way that people who had problems with getting reaction on capacitive touch, could interact with our touchpoints without the problems. We also found out that sometimes specific shoes might prevent capacitive touch to work properly, therefore it was a good idea for us to create the floor with pillows, so people lift their feet from the ground and then capacitive touch doesn’t depend on that.</p>
+          <p><span>Putting everything together</span><br>
+            On this day we were putting together everything that we worked on the previous days. We put together the base of our set up with tables and the supporting pillars. After that, we attached all the wires to the wooden board that we used for the ceiling and secure them with the tape. We created the decorations for our touchpoints from aluminium foil so it would work properly with the capacitive touch.</p>
+
+            <p><span>Changing capacitive touch sensitivity</span><br>
+              This day we figured out, that our capacitive touch doesn’t work properly with everyone. Sometimes the sensor was not sensitive enough that caused delay in reaction, or didn’t react on the touch at all. For that reason, I was working on changing the code in a way, that the sensitivity of capacitive touchboard increased. I managed to work it out and change the code in a way that people who had problems with getting reaction on capacitive touch, could interact with our touchpoints without the problems. We also found out that sometimes specific shoes might prevent capacitive touch to work properly, therefore it was a good idea for us to create the floor with pillows, so people lift their feet from the ground and then capacitive touch doesn’t depend on that.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/TdcRX1oeIkk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <a href="https://youtube.com/shorts/TdcRX1oeIkk?feature=share" target="_blank"><p>Youtube shorts: The board with all the touch points attached</p></a>
           <br>
-          <p>After we created and attached all the touchpoints to the board, it was time to attach the cloudy part of our sky. We used the material from pillows to create the clouds and attached it to the white base that was made out of kitchen ventilation filter. We had to sew together the parts, so it stays properly together, and glued the pillow material to this base. We got a very nice result because our cloudy sky looked vert fluffy and cosy.</p>
+          <p><span>Finalising the cloudy sky</span><br>
+            After we created and attached all the touchpoints to the board, it was time to attach the cloudy part of our sky. We used the material from pillows to create the clouds and attached it to the white base that was made out of kitchen ventilation filter. We had to sew together the parts, so it stays properly together, and glued the pillow material to this base. We got a very nice result because our cloudy sky looked vert fluffy and cosy.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/0vLdBzUR2Ac" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <a href="https://youtube.com/shorts/0vLdBzUR2Ac?feature=share" target="_blank"><p>Youtube shorts: Cloudy sky base</p></a>
           <br>
@@ -126,10 +879,232 @@
             By the end of the day, we had our installation fully set and all the touch points working properly.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/X87_Bo-L3eY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <a href="https://www.youtube.com/shorts/X87_Bo-L3eY" target="_blank"><p>Youtube shorts: Me interacting with the final prototype</p></a>
+
+            <button type="button" class="collapsible">Final code for LEDs with capacitive touch</button>
+          <div class="content">
+          <pre>#include <Wire.h>
+            #include "Adafruit_MPR121.h"
+            #include <FastLED.h>
+            
+            #ifndef _BV
+            #define _BV(bit) (1 << (bit)) 
+            #endif
+            
+            #define LED_PIN     11
+            #define NUM_LEDS    180
+            
+            int ledState = LOW;
+            int ledState2 = LOW;
+            int ledState3 = LOW;
+            int ledState4 = LOW;
+            
+            int brightness = map(NUM_LEDS, 0, 1023, 0, 255);
+            
+            CRGB leds[NUM_LEDS];
+
+            // You can have up to 4 on one i2c bus but one is enough for testing!
+            Adafruit_MPR121 cap = Adafruit_MPR121();
+            
+            // Keeps track of the last pins touched
+            // so we know when buttons are 'released'
+            uint16_t lasttouched = 0;
+            uint16_t currtouched = 0;
+            
+            void setup() {
+              Serial.begin(9600);
+              FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+              //FastLED.setBrightness (50);
+            
+              while (!Serial) { // needed to keep leonardo/micro from starting too fast!
+                delay(10);
+              }
+              
+              Serial.println("Adafruit MPR121 Capacitive Touch sensor test"); 
+              
+              // Default address is 0x5A, if tied to 3.3V its 0x5B
+              // If tied to SDA its 0x5C and if SCL then 0x5D
+              if (!cap.begin(0x5A)) {
+                Serial.println("MPR121 not found, check wiring?");
+                while (1);
+              }
+              Serial.println("MPR121 found!");
+              cap.setThresholds(5, 1);
+
+            }
+           
+            void loop() {
+              // Get the currently touched pads
+               // reset our state
+              lasttouched = currtouched;
+              currtouched = cap.touched();
+              
+              for (uint8_t i=0; i<6; i++) {
+                // it if is touched and wasnt touched before, alert!
+                
+                //Touchpoint lightning
+                if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                  if (i==0) {
+                    if(ledState == LOW){
+                ledState = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=0; i<=29; i++) {
+
+              leds[i] = CRGB(0, 50, 200);
+              FastLED.show();
+              delay(10);
+              }
+            
+            }else{
+              ledState = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=0; i<=29; i++) {
+              leds[i] = CRGB(150, 150, 0);    
+
+              FastLED.show();
+              delay(10);
+              }
+              
+              }
+            }digitalWrite(LED_PIN, ledState);
+                  }
+            
+            //touch point swirl
+                   if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==1) {
+                    if(ledState2 ==LOW){
+                ledState2 = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=30; i<=59; i++) {
+              //leds[i] = CRGB(0, 255, 0);
+              leds[i] = CRGB(100, 255, 0);
+              FastLED.show();
+              }
+            }else{
+              ledState2 = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=30; i<=59; i++) {
+              leds[i] = CRGB(150, 0, 200);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState2);
+                    }
+                  
+            
+              }
+            
+            //touch point sun
+              if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==2) {
+                    if(ledState3 ==LOW){
+                ledState3 = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=60; i<=89; i++) {
+              //leds[i] = CRGB(0, 0, 255);
+              leds[i] = CRGB(150, 0, 255);
+              FastLED.show();
+              }
+            }else{
+              ledState3 = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=60; i<=89; i++) {
+              leds[i] = CRGB(100, 50, 0);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState3);
+                    }
+              }
+            
+            // touch point moon
+              if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                    if (i==3) {
+                    if(ledState4 ==LOW){
+                ledState4 = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=90; i<=119; i++) {
+              //leds[i] = CRGB(150, 0, 150);
+              leds[i] = CRGB(150, 150, 0);
+              FastLED.show();
+              }
+            }else{
+              ledState4 = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=90; i<=119; i++) {
+              leds[i] = CRGB(0, 200, 50);
+              FastLED.show();
+              }
+            }digitalWrite(LED_PIN, ledState4);
+                    }
+              }
+            
+              //Touch point star
+              if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                  if (i==4) {
+                    if(ledState == LOW){
+                ledState = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=120; i<=149; i++) {
+              leds[i] = CRGB(190, 0, 50);
+              FastLED.show();
+              delay(10);
+              }
+            }else{
+              ledState = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=120; i<=149; i++) {
+              leds[i] = CRGB(200, 150, 0);
+              FastLED.show();
+              delay(10);
+              }
+            }digitalWrite(LED_PIN, ledState);
+                  }
+                    }
+
+              // Touch point heart
+              if (!(lasttouched & _BV(i)) && (currtouched & _BV(i)) ) {
+                  if (i==5) {
+                    if(ledState == LOW){
+                ledState = HIGH;
+                Serial.print(i); Serial.println(" touched");
+                for (int i=150; i<=179; i++) {
+              leds[i] = CRGB(150, 0, 200);
+              FastLED.show();
+              delay(10);
+              }
+            }else{
+              ledState = LOW;
+              Serial.print(i); Serial.println(" released");
+              for (int i=150; i<=179; i++) {
+              leds[i] = CRGB(50, 0, 230);
+              FastLED.show();
+              delay(10);
+              }
+            }digitalWrite(LED_PIN, ledState);
+                  }
+                    }
+            
+                    Serial.print("\t\t\t\t\t\t\t\t\t\t\t\t\t 0x"); Serial.println(cap.touched(), HEX);
+              Serial.print("Filt: ");
+              for (uint8_t i=0; i<6; i++) {
+                Serial.print(cap.filteredData(i)); Serial.print("\t");
+              }
+              Serial.println();
+              Serial.print("Base: ");
+              for (uint8_t i=0; i<6; i++) {
+                Serial.print(cap.baselineData(i)); Serial.print("\t");
+              }
+              Serial.println();
+
+              delay(100);
+            }
+            }
+          </pre>
+      </div>
         </div>
 
         <div class="topic_block">
           <h2>Day 9 EXPO</h2>
+          <p><span>Wingplay team</span></p>
+          <img class="example_pictures" src="Day 9/Wingplay Team.jpeg">
           <p>We used Friday morning to test our installation with several people and still adjusted the sensitivity of capacitive touch based on the results. After fixing the sensitivity, we did last test with several people and then our installation was ready to present on the expo. </p>
           <img class="example_pictures_vertical" src="Day 9/IMG_0431.jpg">
           <img class="example_pictures" src="Day 9/IMG_0436.jpg">

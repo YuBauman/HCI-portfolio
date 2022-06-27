@@ -5,6 +5,7 @@
     <title>Workshop: Arduino</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.typekit.net/wuk8pmq.css">
+    <script src="main.js" defer></script>
   </head>
   <body>
     <header>
@@ -27,26 +28,176 @@
         <h1>Exercise 4C: Fade LED</h1>
         <div class="topic_block">
             <p>Assignment: Extend the code so that one LED slowly fades in and the other fades out at the same time.</p>
+        
             <iframe width="560" height="315" src="https://www.youtube.com/embed/35ceKcXylF4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 4C</button>
+            <div class="content">
+            <pre>int greenLedPin = 10; int yellowLedPin = 9;
+
+                void setup() { pinMode(greenLedPin, OUTPUT); pinMode(yellowLedPin, OUTPUT);
+                }
+                
+                void loop() {
+                for (int brightness=0; brightness <256; brightness++){ analogWrite(greenLedPin, brightness);
+                analogWrite(yellowLedPin, 255-brightness);
+                delay(10);
+                }
+                }
+                
+                int sensorValue = 0; // variable for sensor value
+                int sensorPin = A0; // variable for sensor pin
+                
+                void setup() {
+                pinMode(sensorPin, INPUT);
+                Serial.begin(9600);
+                
+                }
+                void loop() {
+                
+                
+                sensorValue = analogRead(sensorPin);
+                
+                Serial.println(sensorValue);
+                delay(200);
+                
+                // read the value/voltage on the sensor
+                // pin and store that value in the
+                // variable sensorValue
+                
+                // print out sensorValue to the Serial
+                // Monitor
+                
+                // delay for 0.2 seconds
+                
+                } 
+            </pre>
+        </div>
         </div>
         
         <h1>Exercise 6C: Controlling a LED with a potmeter</h1>
         <div class="topic_block">
             <p>Assignment: Change the code so that one LED fades in while the other fades out and vice versa.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/5Yhc3qLVehk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 6C</button>
+            <div class="content">
+            <pre>float sensorValue = 0; // variable for sensor value
+                int sensorPin = A0; // variable for sensor pin
+                int greenLedPin = 10;
+                int yellowLedPin = 9;
+                
+                void setup() {
+                pinMode(sensorPin, INPUT);
+                Serial.begin(9600);
+                pinMode(greenLedPin, OUTPUT);
+                pinMode(yellowLedPin, OUTPUT);
+                }
+                
+                void loop() {
+                
+                sensorValue = analogRead(sensorPin);
+                sensorValue = map (sensorValue, 0, 1023, 0, 255);
+                
+                analogWrite(greenLedPin, 255-sensorValue);
+                analogWrite(yellowLedPin, sensorValue);
+                
+                Serial.println(sensorValue);
+                delay(20);
+                
+                // read the value/voltage on the sensor
+                // pin and store that value in the
+                // variable sensorValue
+                
+                // print out sensorValue to the Serial
+                // Monitor
+                
+                // delay for 0.2 seconds
+                
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 7A: LED Matrix</h1>
         <div class="topic_block">
             <p>Assignment: Copy, upload and execute the code on the next page to your Arduino board. A smiley face and a frowney face should alternate every second.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/q7pdHIqW8GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 7A</button>
+            <div class="content">
+            <pre>#include "LedControl.h"
+                /*
+                DIN connects to pin 12 CLK connects to pin 11 CS connects to pin 10
+                */
+                LedControl lc = LedControl(12,11,10,1); // create a new LedControl object
+                void setup() {
+                lc.shutdown(0,false); // Turn matrix on, no power saving lc.setIntensity(0,8); // Set brightness to a medium value lc.clearDisplay(0); // Clear the display
+                }
+                void loop(){ 
+                  lc.setRow(0,0,B00111100); 
+                  lc.setRow(0,1,B01000010); 
+                  lc.setRow(0,2,B10100101); 
+                  lc.setRow(0,3,B10000001); 
+                  lc.setRow(0,4,B10100101); 
+                  lc.setRow(0,5,B10011001); 
+                  lc.setRow(0,6,B01000010); 
+                  lc.setRow(0,7,B00111100); 
+                  delay(1000);
+                lc.setRow(0,0,B00111100); 
+                lc.setRow(0,1,B01000010); 
+                lc.setRow(0,2,B10100101); 
+                lc.setRow(0,3,B10000001); 
+                lc.setRow(0,4,B10011001); 
+                lc.setRow(0,5,B10100101); 
+                lc.setRow(0,6,B01000010); 
+                lc.setRow(0,7,B00111100); 
+                delay(1000);
+                }
+            </pre>
         </div>
+    </div>
 
         <h1>Exercise 8A: Control the LED with light</h1>
         <div class="topic_block">
             <p>For this exercise the light sensor is used to change the brightness of LED. First, I tried to make it work without the constraints in the code, so when it was too dark, the LED was flickering. After that, I added constraint value in the code, and then the light completely turned off when it's very dark, instead of flickering, so the fading looked more smooth</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/ZmU5PXvSVjs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/0KQjCLbi84A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 8A</button>
+            <div class="content">
+            <pre>float sensorValue = 0; // variable for sensor value
+                int sensorPin = A0; // variable for sensor pin
+                int greenLedPin = 10;
+                int yellowLedPin = 9;
+                
+                void setup() {
+                pinMode(sensorPin, INPUT);
+                Serial.begin(9600);
+                pinMode(greenLedPin, OUTPUT);
+                pinMode(yellowLedPin, OUTPUT);
+                }
+                
+                void loop() {
+                
+                sensorValue = analogRead(sensorPin);
+                sensorValue = map (sensorValue, 585, 840, 0, 255);
+                sensorValue = constrain (sensorValue, 0, 255);
+                
+                analogWrite(greenLedPin, sensorValue);
+                analogWrite(yellowLedPin, sensorValue);
+                
+                Serial.println(sensorValue);
+                delay(20);
+                
+                // read the value/voltage on the sensor
+                // pin and store that value in the
+                // variable sensorValue
+                
+                // print out sensorValue to the Serial
+                // Monitor
+                
+                // delay for 0.2 seconds
+                
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 9C: Sound</h1>
@@ -55,12 +206,76 @@
             <p>For this exercise I also wanted to experiment, so I looked up in the internet some examples of well known melodies and the code in Arduino for that, and played Star Wars theme on my Arduino board.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/HJolLlFXt_U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/bDetqCUtYiA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 9C</button>
+            <div class="content">
+            <pre>int speakerPin = 8;
+                void setup() { pinMode(speakerPin, OUTPUT);
+                }
+                void loop() { 
+                
+                int i = 0;
+                
+                  for (i = 300; i < 1000; i++) { 
+                  tone(speakerPin, i); delay(5);
+                }
+                
+                for (i = 1000; i > 300; i--) {
+                  tone(speakerPin, i); delay(5);
+                  }
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 11C: Distance</h1>
         <div class="topic_block">
             <p>Assignment: Make yellow LED blink when something is withing 50cm distance from the distance sensor.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/--POjKQLqy4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 11C</button>
+            <div class="content">
+            <pre>const int echoPin = 6;
+                const int trigPin = 7;
+                int yellowLedPin = 8;
+                
+                void setup() { 
+                  pinMode(echoPin, INPUT);
+                  pinMode(trigPin, OUTPUT);
+                  pinMode (yellowLedPin, OUTPUT);
+                  
+                Serial.begin(9600); 
+                }
+                
+                void loop() {
+                 // send a pulse
+                digitalWrite(trigPin, LOW);
+                delayMicroseconds(2);
+                digitalWrite(trigPin, HIGH);
+                delayMicroseconds(5);
+                digitalWrite(trigPin, LOW);
+                
+                // wait for the echo
+                long duration = pulseIn(echoPin, HIGH);
+                
+                // convert the time into a distance, the speed of sound is 29 microseconds per
+                // centimeter, the pulse traveled forth and back, so we divided the distance
+                // by 2
+                int cm = duration / 29 / 2;
+                
+                Serial.print(cm);
+                
+                //if the measured distance is lower than 50 cm, turn on LED
+                if(cm<50){ digitalWrite(yellowLedPin, HIGH);
+                }
+                //else turn off LED
+                else{
+                digitalWrite(yellowLedPin, LOW);
+                }
+                
+                delay(100);
+                
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 12D: Arduino and Processing</h1>
@@ -68,6 +283,56 @@
             <p>Assignment: Connect Arduino and Processing. Give the output on the Processing from the input on the Arduino.</p>
             <p>I connected Arduino and Processing, and for the input in Arduino I used pot-meter to change the size of the circle that is drawn in Processing. As I turn the pot-meter, it either increases or decreases the diameter of the circle in Processing.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/shBnGHvY2rA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 12D</button>
+            <div class="content">
+            <pre>float sensorValue = 0; 
+                int sensorPin = A0; 
+                int greenLedPin = 10;
+                
+                void setup() {
+                  Serial.begin(9600);
+                
+                
+                
+                pinMode(sensorPin, INPUT);
+                pinMode(greenLedPin, OUTPUT);
+                }
+                
+                void loop() {
+                sensorValue = analogRead(sensorPin); // Read the value/current on the
+                // sensor pin and store that value in // the variable sensorValue
+                sensorValue = (sensorValue/1023)*255; // Rescale the sensor's value.
+                // Change the values 1023 and 255 to
+                // calibrate the sensor.
+                analogWrite(greenLedPin, sensorValue);
+                Serial.println (sensorValue);
+                // Send power to LED Serial.println(sensorValue);
+                // Print the sensorValue to the serial
+                // connection delay(100); // Wait 0.1 seconds
+                }
+            </pre>
+        </div>
+
+        <button type="button" class="collapsible">Processing Code Exercise 12D</button>
+            <div class="content">
+            <pre>import processing.serial.*;
+                Serial myPort;
+                String sensorReading="";
+                void setup() {
+                size(400, 400);
+                myPort = new Serial(this, Serial.list()[1], 9600); // instead of 5, choose what
+                myPort.bufferUntil('\n'); }
+                // ever serial port the // Arduino connects to
+                void draw() {
+                background(255);
+                fill(0);
+                text("Sensor Reading: " + sensorReading, 20, 20);
+                ellipse(width/2, height/2, float(sensorReading), float(sensorReading));
+                }
+                void serialEvent (Serial myPort) {
+                sensorReading = myPort.readStringUntil('\n'); }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 13B: Processing and Arduino</h1>
@@ -77,18 +342,314 @@
             <p>For the second example I created the version of piano. As the mouse goes over one of the rectangles, specific sound is played on Arduino board. Each rectangle gives as an output different sounds.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/8MF-Kfo8K-c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/xVYsA88Z3-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <button type="button" class="collapsible">Siren Arduino Code Exercise 13B</button>
+            <div class="content">
+            <pre>char val;
+                int ledPin = 13; // Set ledPin to 13
+                int speakerPin = 8;
+                
+                void setup() {
+                pinMode(ledPin, OUTPUT);
+                pinMode(speakerPin, OUTPUT);
+                Serial.begin (9600);
+                }
+                 
+                void loop() {
+                  while (Serial.available()) {
+                    val = Serial.read();
+                    }
+                    
+                  if (val == 'H') {
+                    digitalWrite (ledPin, HIGH);
+                    
+                    for (int i= 100; i < 300; i++) { 
+                    tone(speakerPin, i); delay(10);
+                }
+                } 
+                
+                  if (val == 'L') {
+                digitalWrite(ledPin, LOW);
+                noTone(speakerPin);
+                
+                }
+                
+                //delay(100);
+                }
+            </pre>
+        </div>
+        <button type="button" class="collapsible">Siren Processing Code Exercise 13B</button>
+            <div class="content">
+            <pre>import processing.serial.*;
+
+                Serial myPort; // Create object from Serial class
+                int val; // Data received from the serial port
+                
+                void setup()
+                {
+                size(200, 200);
+                String portName = Serial.list()[1]; //adjust 0 to the port your Arduino // is connected to
+                
+                myPort = new Serial(this, portName, 9600); }
+                
+                void draw() {
+                background(255);
+                if (buttonOn() == true) {
+                      
+                      myPort.write('H');
+                } if (buttonOff() == true) {
+                    
+                    myPort.write('L');
+                }
+                fill (0, 255, 0);
+                rect(25, 50, 50, 50);
+                
+                fill (255, 0, 0);
+                rect(125, 50, 50, 50);
+                
+                }
+                
+                boolean buttonOn () {
+                return ((mouseX >= 25) && (mouseX <= 75) && (mouseY >= 50) && (mouseY <=
+                100) && mousePressed); 
+                }
+                
+                boolean buttonOff () {
+                return ((mouseX >= 125) && (mouseX <= 175) && (mouseY >= 50) && (mouseY <=
+                100) && mousePressed); 
+                }
+            </pre>
+        </div>
+
+        <button type="button" class="collapsible">Piano Arduino Code Exercise 13B</button>
+            <div class="content">
+            <pre>char val;
+                int ledPin = 13; // Set ledPin to 13
+                int speakerPin = 8;
+                
+                void setup() {
+                pinMode(ledPin, OUTPUT);
+                pinMode(speakerPin, OUTPUT);
+                Serial.begin (9600);
+                }
+                 
+                void loop() {
+                  while (Serial.available()) {
+                    val = Serial.read();
+                    }
+                    
+                  if (val == 'A') {
+                    digitalWrite (ledPin, HIGH);
+                    
+                    tone(speakerPin, 262);
+                }
+                
+                  if (val == 'B') {
+                digitalWrite(ledPin, LOW);
+                tone(speakerPin, 311);
+                
+                }
+                
+                if (val == 'C') {
+                digitalWrite(ledPin, HIGH);
+                tone(speakerPin, 370);
+                
+                }
+                
+                if (val == 'D') {
+                digitalWrite(ledPin, LOW);
+                tone(speakerPin, 466);
+                
+                }
+                //delay(100);
+                }
+            </pre>
+        </div>
+
+        <button type="button" class="collapsible">Piano Processing Code Exercise 13B</button>
+            <div class="content">
+            <pre>import processing.serial.*;
+
+                Serial myPort; // Create object from Serial class
+                int val; // Data received from the serial port
+                
+                void setup()
+                {
+                size(200, 200);
+                String portName = Serial.list()[1]; //adjust 0 to the port your Arduino // is connected to
+                
+                myPort = new Serial(this, portName, 9600); }
+                
+                void draw() {
+                background(255);
+                if (AreaA() == true) {
+                      
+                      myPort.write('A');
+                } if (AreaB() == true) {
+                    
+                    myPort.write('B');
+                }
+                
+                if (AreaC() == true) {
+                    
+                    myPort.write('C');
+                }
+                
+                if (AreaD() == true) {
+                    
+                    myPort.write('D');
+                }
+                
+                fill (0, 255, 0);
+                rect(0, 0, 200, 50);
+                
+                fill (255, 0, 0);
+                rect(0, 50, 200, 50);
+                
+                fill (0, 0, 255);
+                rect(0, 100, 200, 50);
+                
+                fill (0, 255, 255);
+                rect(0, 150, 200, 50);
+                
+                }
+                
+                boolean AreaA () {
+                return ((mouseY >0) && (mouseY <= 50)); 
+                }
+                
+                boolean AreaB () {
+                return ((mouseY > 50) && (mouseY <=100)); 
+                }
+                
+                boolean AreaC () {
+                return ((mouseY > 100) && (mouseY <=150)); 
+                }
+                
+                boolean AreaD () {
+                return ((mouseY > 150) && (mouseY <=200)); 
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 14B: Buttons</h1>
         <div class="topic_block">
             <p>Assignment: Change the code. The LED should turn off while the button is pressed.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/qNz63OTqdsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 14B</button>
+            <div class="content">
+            <pre>// constants won't change. They're used here to set pin numbers:
+                const int buttonPin = 2;     // the number of the pushbutton pin
+                const int ledPin =  13;      // the number of the LED pin
+                
+                // variables will change:
+                int buttonState = 0;         // variable for reading the pushbutton status
+                
+                void setup() {
+                  // initialize the LED pin as an output:
+                  pinMode(ledPin, OUTPUT);
+                  // initialize the pushbutton pin as an input:
+                  pinMode(buttonPin, INPUT);
+                }
+                
+                void loop() {
+                  // read the state of the pushbutton value:
+                  buttonState = digitalRead(buttonPin);
+                
+                  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+                  if (buttonState == HIGH) {
+                    // turn LED off:
+                    digitalWrite(ledPin, LOW);
+                  } else {
+                    // turn LED on:
+                    digitalWrite(ledPin, HIGH);
+                  }
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 15B: Servomotor</h1>
         <div class="topic_block">
             <p>Assignment: Change the code in a way that the servo will move in a more interesting way. Try to make the servo move in a funny, rhythmical way. Teach it how to dance.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/6k4xetYLC9k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 15B</button>
+            <div class="content">
+            <pre>#include <Servo.h> 
+
+                Servo myServo; 
+                int servoPin = 9;
+                int pos = 0;
+                // Declare a servo object for us to control // Var for the pin the servo connects to
+                // Var to keep track of the servo's position
+                void setup() {
+                myServo.attach(servoPin); // Tell the servo to what pin it's connected to
+                }
+                void loop() {
+                for(pos = 0; pos < 60; pos += 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(5); 
+                }
+                
+                for(pos = 60; pos >20; pos -= 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(10); 
+                }
+                
+                for(pos = 20; pos <80; pos += 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(5); 
+                }
+                
+                for(pos = 80; pos >50; pos -= 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(15); 
+                }
+                
+                for(pos = 50; pos <90; pos += 1){
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(5);
+                }
+                
+                for(pos = 90; pos >30; pos -= 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(10);
+                }
+                
+                for(pos = 30; pos <80; pos += 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(15); 
+                }
+                
+                for(pos = 80; pos >50; pos -= 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(10); 
+                }
+                
+                for(pos = 50; pos <120; pos += 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(5); 
+                }
+                
+                for(pos = 120; pos >110; pos -= 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(15); 
+                }
+                
+                for(pos = 110; pos <160; pos += 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(5); 
+                }
+                
+                for(pos = 160; pos >100; pos -= 1){ 
+                myServo.write(pos); // Turn the servo to the position in pos
+                delay(1); 
+                }
+                
+                }
+            </pre>
+        </div>
         </div>
 
         <h1>Exercise 16D: Capacitive touch</h1>
@@ -97,6 +658,35 @@
             <p>For this exercise I made the LED turn on when the sensor is touched and turn off once it's released. Besides that, I tried to experiment with drawing, so I used a graphite pencil to draw something on the paper, and once I touched the drawing with the sensor, the LED light acted the same way as when I touched it with my hand - light up once it's touched and turn off when it doesn't touch the drawing.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/POicXDLYY9U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/CMOsDZEtDzQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <button type="button" class="collapsible">Arduino Code Exercise 16D</button>
+            <div class="content">
+            <pre>#include <CapacitiveSensor.h>
+
+                CapacitiveSensor touchSwitch = CapacitiveSensor(4, 2);
+                
+                int LEDpin = 11;
+                
+                void setup(){ 
+                  pinMode(LEDpin, OUTPUT); 
+                  Serial.begin(9600);
+                }
+                
+                
+                void loop(){
+                long val = touchSwitch.capacitiveSensor(100);
+                
+                  if (val > 350) {
+                    digitalWrite(LEDpin, HIGH); 
+                    } else { 
+                    digitalWrite(LEDpin, LOW); 
+                    }
+                
+                    
+                Serial.println(val); // print sensor output
+                
+                }
+            </pre>
+        </div>
         </div>
 
         <div id="footer">

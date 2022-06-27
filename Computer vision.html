@@ -5,6 +5,7 @@
     <title>Workshop: Computer Vision</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.typekit.net/wuk8pmq.css">
+    <script src="main.js" defer></script>
   </head>
   <body>
     <header>
@@ -24,6 +25,29 @@
                 <p>For this assignment I added a colour to a sketch, that appears in the range of different shades of purple. The colour is added to the sketch on the mouse being clicked and hold. As the mouse is release, the sketch starts drawing in white colour again.</p>
              </div>
             <iframe class="youtube_video" width="560" height="315" src="https://www.youtube.com/embed/84KTly1WP98" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <button type="button" class="collapsible">Code Assignment 3</button>
+            <div class="content">
+            <pre>function setup() {
+              createCanvas(400, 400);
+            }
+            
+            function draw() {
+              
+              r = random (200);
+              g = random (100);
+              b = random (150, 180);
+              a = random (200, 255);
+              
+              if (mouseIsPressed) {
+                fill(r, g, b, a);
+              } else {
+                fill(255);
+              }
+              ellipse(mouseX, mouseY, 80, 80);
+            }
+            </pre>
+        </div>
         </div>
         <h1>Assignment 7: Computer Vision</h1>
         <div class = "assignment_block">
@@ -36,6 +60,96 @@
                 <p>Afterwards I decided to experiment with it a bit, and I changed the rectangles to stars, so it looks more fun and playful.</p>
              </div>
              <iframe width="560" height="315" src="https://www.youtube.com/embed/vTUaKoF03zE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+             <button type="button" class="collapsible">Code Assignment 7</button>
+            <div class="content">
+            <pre>let video;
+              let poseNet;
+              let poses = [];
+              
+              function setup() {
+                createCanvas(640, 480);
+                video = createCapture(VIDEO);
+                video.size(width, height);
+              
+                // Create a new poseNet method with a single detection
+                poseNet = ml5.poseNet(video, modelReady);
+                // This sets up an event that fills the global variable "poses"
+                // with an array every time new poses are detected
+                poseNet.on('pose', function(results) {
+                  poses = results;
+                });
+                // Hide the video element, and just show the canvas
+                video.hide();
+              }
+              
+              function modelReady() {
+                select('#status').html('Model Loaded');
+              }
+              
+              function draw() {
+                image(video, 0, 0, width, height);
+              
+                // We can call both functions to draw all keypoints and the skeletons
+                drawKeypoints();
+                drawSkeleton();
+              }
+              
+              // A function to draw ellipses over the detected keypoints
+              function drawKeypoints()  {
+                // Loop through all the poses detected
+                for (let i = 0; i < poses.length; i++) {
+                  // For each pose detected, loop through all the keypoints
+                  let pose = poses[i].pose;
+                  for (let j = 0; j < pose.keypoints.length; j++) {
+                    // A keypoint is an object describing a body part (like rightArm or leftShoulder)
+                    let keypoint = pose.keypoints[j];
+                    // Only draw an ellipse is the pose probability is bigger than 0.2
+                    if (keypoint.score > 0.2) {
+                      
+                      r = random (100, 255);
+                      g = random (150, 255);
+                      b = random (220, 255);
+                      a = random (250, 255);
+                      
+                      fill(r, g, b, a);
+                      noStroke();
+                      //rect(keypoint.position.x, keypoint.position.y, 20, 20);
+                      
+                      beginShape();
+                      vertex(keypoint.position.x, keypoint.position.y)
+                      vertex(keypoint.position.x - 8, keypoint.position.y)
+                      vertex(keypoint.position.x - 11, keypoint.position.y - 8.5)
+                      vertex(keypoint.position.x - 15, keypoint.position.y)
+                      vertex(keypoint.position.x - 23, keypoint.position.y)
+                      vertex(keypoint.position.x - 16.5, keypoint.position.y + 5.5)
+                      vertex(keypoint.position.x - 19, keypoint.position.y + 12.5)
+                      vertex(keypoint.position.x - 11.5, keypoint.position.y + 8.5)
+                      vertex(keypoint.position.x - 4, keypoint.position.y + 12.5)
+                      vertex(keypoint.position.x - 6.5, keypoint.position.y + 5.5)
+                      endShape(CLOSE);
+                  
+                    }
+                  }
+                }
+              }
+              
+              // A function to draw the skeletons
+              function drawSkeleton() {
+                // Loop through all the skeletons detected
+                for (let i = 0; i < poses.length; i++) {
+                  let skeleton = poses[i].skeleton;
+                  // For every skeleton, loop through all body connections
+                  for (let j = 0; j < skeleton.length; j++) {
+                    let partA = skeleton[j][0];
+                    let partB = skeleton[j][1];
+                    stroke(r, g, b, a , 0, 0);
+                    line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+                  }
+                }
+              }
+            </pre>
+        </div>
         </div>
         <h1>Assignment 8: Hand position and distance</h1>       
         <div class = "assignment_block">
@@ -43,6 +157,64 @@
                 <p>The rectangle changes its width to fit between the hands. The width of the rectangle equals to the distance between wrists, and I also added the additional interaction that the rectangle starts changing the colour once its width exceeds a specific value.</p>
              </div>
              <iframe width="560" height="315" src="https://www.youtube.com/embed/nGqXFPUMivU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+             <button type="button" class="collapsible">Code Assignment 8</button>
+            <div class="content">
+            <pre>let video;
+              let poseNet;
+              let pose;
+              let skeleton;
+              
+              function setup() {
+                createCanvas(640, 480);
+                video = createCapture (VIDEO);
+                video.hide();
+                poseNet = ml5.poseNet(video, modelLoaded);
+                poseNet.on ('pose', gotPoses);
+              }
+              
+              function gotPoses (poses) {
+                //console.log (poses);
+                if (poses.length > 0) {
+                  pose = poses[0].pose;
+                  skeleton = poses[0].skeleton;
+                }
+              
+              }
+              
+              function modelLoaded() {
+                
+              }
+              
+              function draw() {
+                image (video, 0, 0);
+                
+                if (pose) {
+                  r = random (255);
+                  g = random (255);
+                  b = random (255);
+                  a = random (200, 255);
+                  
+                  let eyeR = pose.rightEye;
+                  let eyeL = pose.leftEye;
+                  let d = dist (eyeR.x, eyeR.y, eyeL.x, eyeL.y);
+                  
+                  let wristR = pose.rightWrist;
+                  let wristL = pose.leftWrist;
+                  let w = dist (wristR.x, wristR.y, wristL.x, wristL.y);
+                  
+                if (w > 150) {
+                  fill (r, g, b, a);
+                } else {
+                  fill (255);
+                }
+                  rect (wristR.x, wristR.y, w, 30);
+                  
+                  
+                }
+              }
+            </pre>
+        </div>
         </div>
 
         <h1>Assignment 9: Cheer detection</h1>       
@@ -51,6 +223,80 @@
                 <p>The stars appear on the cheering pose. Once the wrists are above the shoulders, that is a usual pose for cheering, it triggers the system to draw stars on the place of wrists, and as a person waves with hands, the size of stars changes. The furter hands are from each other, the bigger is the size of stars.</p>
              </div>
              <iframe width="560" height="315" src="https://www.youtube.com/embed/i1VXJZxrJos" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+             <button type="button" class="collapsible">Code Assignment 9</button>
+            <div class="content">
+            <pre>let video;
+              let poseNet;
+              let pose;
+              
+              function setup() {
+                createCanvas(640, 480);
+                video = createCapture(VIDEO);
+                video.hide();
+                poseNet = ml5.poseNet(video, modelLoaded);
+                poseNet.on('pose', gotPoses);
+              }
+              
+              function gotPoses(poses) {
+                //console.log(poses);
+                if (poses.length > 0) {
+                  pose = poses[0].pose;
+                }
+              }
+              
+              function modelLoaded() {
+                //console.log('poseNet ready');
+              }
+              
+              function draw() {
+                image(video, 0, 0);
+                
+                r = random (100, 255);
+                g = random (150, 255);
+                b = random (220, 255);
+                a = random (250, 255)
+              
+                if (pose) {
+                  let wristR = pose.rightWrist;
+                  let wristL = pose.leftWrist;
+                  let shoulderR = pose.rightShoulder;
+                  let shoulderL = pose.rightShoulder;
+                  
+                    if ((wristR.y < shoulderR.y) & wristL.y < shoulderL.y) {
+                      
+                      let wrx = wristR.x;
+                      let wlx = wristL.x;
+                      
+                      let wry = wristR.y;
+                      let wly = wristL.y;
+                        
+                    fill(r, g, b, a);
+                    noStroke();
+                      
+                      let d = dist(wrx, wry, wlx, wly);
+                      star(wrx, wry, (d/2)*0.43, d/2, 5);
+                      star(wlx, wly, (d/2)*0.43, d/2, 5);
+                      
+                      function star(x, y, radius1, radius2, npoints) {
+                let angle = TWO_PI / npoints;
+                let halfAngle = angle / 2.0;
+                beginShape();
+                for (let a = 0; a < TWO_PI; a += angle) {
+                  let sx = x + cos(a) * radius2;
+                  let sy = y + sin(a) * radius2;
+                  vertex(sx, sy);
+                  sx = x + cos(a + halfAngle) * radius1;
+                  sy = y + sin(a + halfAngle) * radius1;
+                  vertex(sx, sy);
+                }
+                endShape(CLOSE);
+              }
+                      }
+                    } 
+                    }
+            </pre>
+        </div>
         </div>
         <div id="footer">
 
