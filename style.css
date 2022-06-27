@@ -49,7 +49,7 @@
     letter-spacing: 0.1em;
     font-weight: 500;
     font-style: normal;
-    font-size: 2em;
+    font-size: 1.6em;
     color: #fb8500;
   }
 
@@ -78,7 +78,7 @@
     letter-spacing: 0.1em;
   }
 
-  .layer_big a, .layer_small a {
+  .layer_big a, .layer_small a, .wrapper a {
     color: #fff;
   }
 
@@ -281,4 +281,8 @@ img#swing {
 
 img.example_pictures {
   width: 50%;
+}
+
+img.example_pictures_vertical {
+  width: 30%;
 }

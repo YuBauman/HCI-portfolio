@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workshop: Arduino</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.typekit.net/wuk8pmq.css">
+  </head>
+  <body>
+    <header>
+        <a href = "index.html">Home</a>
+      </header>
+    <main>
+        <div id = "welcome">
+            <div id = "hi">
+                <h3>Workshop Weeks 3-4</h3>
+                <h2>Arduino</h2>
+            </div>
+        </div>
+
+        <h1>Exercise 3B: Blink multiple LEDs</h1>
+        <div class = "topic_block">
+           <p>The assignment for this exercise is to make two LEDs blink at the same time.</p>
+           <iframe width="560" height="315" src="https://www.youtube.com/embed/cETu08mmvKk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 4C: Fade LED</h1>
+        <div class="topic_block">
+            <p>Assignment: Extend the code so that one LED slowly fades in and the other fades out at the same time.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/35ceKcXylF4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <h1>Exercise 6C: Controlling a LED with a potmeter</h1>
+        <div class="topic_block">
+            <p>Assignment: Change the code so that one LED fades in while the other fades out and vice versa.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/5Yhc3qLVehk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 7A: LED Matrix</h1>
+        <div class="topic_block">
+            <p>Assignment: Copy, upload and execute the code on the next page to your Arduino board. A smiley face and a frowney face should alternate every second.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/q7pdHIqW8GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 8A: Control the LED with light</h1>
+        <div class="topic_block">
+            <p>For this exercise the light sensor is used to change the brightness of LED. First, I tried to make it work without the constraints in the code, so when it was too dark, the LED was flickering. After that, I added constraint value in the code, and then the light completely turned off when it's very dark, instead of flickering, so the fading looked more smooth</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ZmU5PXvSVjs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/0KQjCLbi84A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 9C: Sound</h1>
+        <div class="topic_block">
+            <p>Assignment: Make a siren. For a siren the frequency always increases until a certain upper frequency is reached and then the frequency is decreased again. Use a loop to achieve this. You can choose your own frequency range, but please keep it somewhere between 100Hz en 2000Hz.</p>
+            <p>For this exercise I also wanted to experiment, so I looked up in the internet some examples of well known melodies and the code in Arduino for that, and played Star Wars theme on my Arduino board.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/HJolLlFXt_U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/bDetqCUtYiA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 11C: Distance</h1>
+        <div class="topic_block">
+            <p>Assignment: Make yellow LED blink when something is withing 50cm distance from the distance sensor.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/--POjKQLqy4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 12D: Arduino and Processing</h1>
+        <div class="topic_block">
+            <p>Assignment: Connect Arduino and Processing. Give the output on the Processing from the input on the Arduino.</p>
+            <p>I connected Arduino and Processing, and for the input in Arduino I used pot-meter to change the size of the circle that is drawn in Processing. As I turn the pot-meter, it either increases or decreases the diameter of the circle in Processing.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/shBnGHvY2rA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 13B: Processing and Arduino</h1>
+        <div class="topic_block">
+            <p>Assignment: Make a new combination between Processing and Arduino. Use a different actuator on the Arduino side and something different from exercise 12 on the Processing side.</p>
+            <p>For this exercise I tried two different variations of interaction. For the first example, I created two "buttons" in Processing that represented Turn On and Turn Off. As the green rectangle (turn on) is pressed, the siren goes off on Arduino and the red LED light turns on. When the red rectangle (turn off) is pressed, the siren stops and the LED light turns off.</p>
+            <p>For the second example I created the version of piano. As the mouse goes over one of the rectangles, specific sound is played on Arduino board. Each rectangle gives as an output different sounds.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/8MF-Kfo8K-c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/xVYsA88Z3-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 14B: Buttons</h1>
+        <div class="topic_block">
+            <p>Assignment: Change the code. The LED should turn off while the button is pressed.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/qNz63OTqdsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 15B: Servomotor</h1>
+        <div class="topic_block">
+            <p>Assignment: Change the code in a way that the servo will move in a more interesting way. Try to make the servo move in a funny, rhythmical way. Teach it how to dance.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/6k4xetYLC9k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <h1>Exercise 16D: Capacitive touch</h1>
+        <div class="topic_block">
+            <p>Assignment: Change the threshold of the capacitive touch. Make the LED light up when the wire is touched.</p>
+            <p>For this exercise I made the LED turn on when the sensor is touched and turn off once it's released. Besides that, I tried to experiment with drawing, so I used a graphite pencil to draw something on the paper, and once I touched the drawing with the sensor, the LED light acted the same way as when I touched it with my hand - light up once it's touched and turn off when it doesn't touch the drawing.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/POicXDLYY9U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/CMOsDZEtDzQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <div id="footer">
+
+        </div>
+    </main>
+  </body>
+</html>
